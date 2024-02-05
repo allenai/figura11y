@@ -1,0 +1,60 @@
+version: '3'
+services:
+  sonar:
+    build: ./sonar
+    depends_on:
+      - api
+      - ui
+      - proxy
+  db:
+    image: postgres:15
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: foo
+      POSTGRES_PASSWORD: bar
+      POSTGRES_DB: writealttext
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  api:
+    build: ./api
+    volumes:
+      - ./api:/api
+    environment:
+      # This ensures that errors are printed as they occur, which
+      # makes debugging easier.
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=DEBUG
+      - POSTGRES_URL=postgresql://foo:bar@db/writealttext?sslmode=disable
+  grobid:
+    build: ./grobid
+    volumes:
+      - ./grobid:/grobid
+    ports:
+      - 8070:8070
+  ui:
+    build: ./ui
+    # We can't mount the entire UI directory, since JavaScript dependencies
+    # (`node_modules`) live at that location.
+    volumes:
+      # - ./ui:/ui
+      - ./ui/pages:/ui/pages
+      - ./ui/components:/ui/components
+      - ./ui/hooks:/ui/hooks
+      - ./ui/lib:/ui/lib
+      - ./ui/styles:/ui/styles
+      - ./ui/public:/ui/public
+      - ./ui/package.json:/ui/package.json
+      - ./ui/yarn.lock:/ui/yarn.lock
+      - ./ui/tsconfig.json:/ui/tsconfig.json
+  proxy:
+    build: ./proxy
+    ports:
+      - 8080:8080
+    depends_on:
+      - ui
+      - api
+      - grobid
+volumes:
+  pgdata:

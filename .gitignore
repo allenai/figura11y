@@ -1,0 +1,26 @@
+# Custom
+.DS_Store
+*.pdf
+*.pth
+*.png
+!images/*.png
+.env*
+api/figures/data/
+ui/.next
+.skiff/secret*.yaml
+.skiff/webapp-local.*
+
+# Python cache files
+__pycache__
+**/*.pyc
+.venv
+
+# UI dependencies
+ui/node_modules/
+
+# UI build output
+ui/build/
+
+# UI package manager debug output
+ui/*.log
+.skiff/webapp.yaml
