@@ -10,12 +10,6 @@ This code is primarily intended for research purposes and may not be suitable fo
 2. [Prerequisites](#prerequisites)
 3. [Getting Started](#getting-started)
 4. [Project Structure](#project-structure)
-5. [Environment Setup](#environment-setup)
-6. [Development and Production Builds](#development-and-production-builds)
-7. [API Documentation](#api-documentation)
-8. [UI Guide](#ui-guide)
-9. [Contributing](#contributing)
-10. [License](#license)
 
 ## <a name="system-architecture"></a>System Architecture
 FigurA11y combines a Flask-based backend and a NextJS frontend. The backend handles PDF processing and metadata extraction, while the frontend provides an interactive interface for alt text editing.
